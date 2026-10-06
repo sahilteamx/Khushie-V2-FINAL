@@ -1,0 +1,451 @@
+/* ================================================================
+   Khushie V2 — Phase 03
+   Cinematic homepage / heart-flower tree reveal
+   Homepage-only layer. Extends the V2 foundation; no global system.
+   ================================================================ */
+
+.page-home{
+  --tree-ink:#6d5142;
+  --tree-ink-light:#a07a60;
+  --tree-leaf:#7e986f;
+  --tree-leaf-soft:#9bab7d;
+  --tree-blossom:#d7a6a0;
+  --tree-blossom-soft:#ebc7b3;
+  --tree-gold:#e8c99d;
+}
+
+.page-home .hero{
+  min-height:max(680px,100svh);
+  background:
+    radial-gradient(42vw 45vw at 76% 50%,rgba(214,170,115,.075),transparent 70%),
+    radial-gradient(36vw 34vw at 20% 76%,rgba(169,102,120,.032),transparent 74%),
+    linear-gradient(180deg,#07080c 0%,#08090d 48%,#0a0b10 100%);
+}
+
+.page-home .hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(28vw 32vw at 78% 48%,rgba(234,208,171,.045),transparent 72%),
+    radial-gradient(18vw 22vw at 54% 74%,rgba(122,71,68,.025),transparent 76%);
+  opacity:.9;
+}
+
+.page-home .hero-content{
+  min-height:min(100svh,960px);
+  padding-top:calc(var(--header-height) + 18px);
+  padding-bottom:72px;
+}
+
+.page-home .hero-copy,
+.page-home .hero-copy > *{
+  position:relative;
+  z-index:5;
+}
+
+.page-home .hero-copy > *{
+  transform-origin:center left;
+}
+
+.page-home .hero.is-cinematic-prep .hero-copy > *{
+  opacity:0;
+  transform:translateY(18px);
+}
+
+.page-home .hero.is-cinematic-prep .hero-copy .eyebrow{
+  transform:translateY(12px);
+}
+
+.page-home .hero.is-cinematic-prep .hero-actions{
+  transform:translateY(20px);
+}
+
+.page-home .hero-visual{
+  width:min(44vw,640px);
+  max-width:640px;
+  min-width:390px;
+  z-index:1;
+  isolation:isolate;
+  opacity:1;
+  filter:none;
+}
+
+.page-home .hero-ring{
+  opacity:.34;
+  transition:opacity .8s ease;
+  animation-duration:34s;
+  pointer-events:none;
+}
+
+.page-home .hero-ring--inner{
+  opacity:.26;
+  animation-duration:28s;
+}
+
+.page-home .hero.is-tree-active .hero-ring,
+.page-home .hero.is-cinematic-complete .hero-ring{
+  animation-play-state:paused;
+  opacity:.14;
+}
+
+.page-home .hero-glow{
+  inset:23%;
+  opacity:.46;
+  background:
+    radial-gradient(circle,rgba(232,201,157,.16),rgba(169,102,120,.035) 44%,transparent 73%);
+  filter:blur(52px);
+  transform:scale(.86);
+  transition:opacity 1s ease,transform 1.2s cubic-bezier(.22,1,.36,1);
+}
+
+.page-home .hero.is-tree-active .hero-glow{
+  opacity:.76;
+  transform:scale(1);
+}
+
+.page-home .hero.is-cinematic-complete .hero-glow{
+  opacity:.52;
+}
+
+.page-home .hero-tree-shell{
+  position:absolute;
+  inset:0;
+  z-index:4;
+  display:grid;
+  place-items:center;
+  pointer-events:none;
+  transform:translateY(2%);
+  filter:drop-shadow(0 34px 70px rgba(0,0,0,.28));
+}
+
+.page-home .home-tree{
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+
+.page-home .tree-ground{
+  fill:rgba(214,170,115,.07);
+  filter:blur(.5px);
+}
+
+.page-home .tree-aura{
+  fill:url(#treeGlow);
+  opacity:.5;
+}
+
+.page-home .tree-roots path,
+.page-home .tree-trunk path,
+.page-home .tree-branches path{
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.page-home .tree-roots path{
+  stroke:url(#treeBranchGradient);
+  stroke-width:5.5;
+  opacity:.82;
+}
+
+.page-home .tree-trunk-main{
+  stroke:url(#treeTrunkGradient);
+  stroke-width:20;
+}
+
+.page-home .tree-trunk-side{
+  stroke:url(#treeTrunkGradient);
+  stroke-width:9;
+  opacity:.92;
+}
+
+.page-home .tree-branches path{
+  stroke:url(#treeBranchGradient);
+  stroke-width:6;
+  opacity:.96;
+}
+
+.page-home .tree-leaves{
+  color:var(--tree-leaf);
+}
+
+.page-home .tree-leaves ellipse{
+  fill:currentColor;
+  opacity:.84;
+}
+
+.page-home .cluster-b,
+.page-home .cluster-d,
+.page-home .cluster-f{
+  color:var(--tree-leaf-soft);
+}
+
+.page-home .tree-flower .petal{
+  fill:var(--tree-blossom);
+  opacity:.94;
+}
+
+.page-home .tree-flower .core{
+  fill:url(#flowerCore);
+  opacity:1;
+}
+
+.page-home .tree-petals path{
+  fill:var(--tree-blossom-soft);
+  opacity:.88;
+  transform-box:fill-box;
+  transform-origin:center;
+}
+
+.page-home .tree-light-sweep{
+  fill:none;
+  stroke:rgba(252,238,214,.55);
+  stroke-width:12;
+  stroke-linecap:round;
+  opacity:0;
+  filter:blur(10px);
+}
+
+.page-home .hero-monogram{
+  position:absolute;
+  inset:auto;
+  z-index:2;
+  width:36%;
+  opacity:.08;
+  border-color:rgba(214,170,115,.26);
+  box-shadow:none;
+  background:transparent;
+  backdrop-filter:none;
+  pointer-events:none;
+}
+
+.page-home .hero-monogram span{
+  font-size:clamp(54px,7vw,100px);
+}
+
+.page-home .floating-word{
+  z-index:1;
+  opacity:.16;
+  pointer-events:none;
+  transition:opacity .8s ease,transform .9s cubic-bezier(.22,1,.36,1);
+}
+
+.page-home .hero.is-tree-active .floating-word{
+  opacity:.09;
+}
+
+.page-home .hero.is-cinematic-complete .floating-word{
+  opacity:.12;
+  transform:translateY(-2px);
+}
+
+.page-home .scroll-indicator{
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .6s ease;
+}
+
+.page-home .hero.is-cinematic-complete .scroll-indicator{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.page-home .hero-particles{
+  z-index:1;
+  opacity:.5;
+}
+
+.page-home .hero-particles .hero-particle{
+  box-shadow:0 0 12px rgba(232,201,157,.26);
+}
+
+.page-home .hero.is-tree-active .hero-particles{
+  opacity:.35;
+}
+
+.page-home .hero.is-cinematic-complete .hero-particles{
+  opacity:.52;
+}
+
+.page-home .hero-actions .button{
+  position:relative;
+  z-index:6;
+}
+
+@media (min-width:1100px){
+  .page-home .hero-content{
+    grid-template-columns:minmax(0,1.03fr) minmax(440px,.97fr);
+    gap:clamp(48px,6vw,100px);
+  }
+
+  .page-home .hero-copy{
+    max-width:740px;
+    padding-bottom:40px;
+  }
+}
+
+@media (min-width:768px) and (max-width:1099px){
+  .page-home .hero{
+    min-height:760px;
+  }
+
+  .page-home .hero-content{
+    min-height:760px;
+    display:block;
+    padding-top:clamp(150px,19vw,190px);
+    padding-bottom:100px;
+  }
+
+  .page-home .hero-copy{
+    max-width:min(68%,700px);
+    padding-top:20px;
+  }
+
+  .page-home .hero-visual{
+    position:absolute;
+    right:-9vw;
+    top:50%;
+    width:min(67vw,560px);
+    min-width:460px;
+    transform:translateY(-47%);
+    opacity:.78;
+    z-index:1;
+  }
+
+  .page-home .hero.is-cinematic-complete .hero-visual{
+    opacity:.56;
+  }
+}
+
+@media (max-width:767px){
+  .page-home .hero{
+    min-height:780px;
+    align-items:flex-start;
+  }
+
+  .page-home .hero-content{
+    min-height:780px;
+    display:block;
+    padding-top:calc(var(--header-height) + 76px);
+    padding-bottom:112px;
+  }
+
+  .page-home .hero-copy{
+    width:100%;
+    max-width:720px;
+    z-index:4;
+  }
+
+  .page-home .hero-copy > *{
+    max-width:100%;
+  }
+
+  .page-home .hero-title{
+    max-width:6.5em;
+    font-size:clamp(56px,18.5vw,86px);
+  }
+
+  .page-home .hero-subtitle{
+    max-width:32em;
+    margin-top:30px;
+  }
+
+  .page-home .personal-placeholder{
+    max-width:30em;
+  }
+
+  .page-home .hero-actions{
+    margin-top:30px;
+  }
+
+  .page-home .hero-visual{
+    position:absolute;
+    top:22%;
+    right:-20vw;
+    width:min(116vw,560px);
+    min-width:0;
+    max-width:none;
+    transform:none;
+    opacity:.58;
+    z-index:1;
+  }
+
+  .page-home .hero.is-cinematic-complete .hero-visual{
+    opacity:.28;
+  }
+
+  .page-home .hero-glow{
+    inset:28%;
+    opacity:.42;
+  }
+
+  .page-home .hero-tree-shell{
+    transform:translateY(2%);
+  }
+
+  .page-home .hero-monogram{
+    width:30%;
+  }
+
+  .page-home .scroll-indicator{
+    bottom:22px;
+  }
+}
+
+@media (max-width:430px){
+  .page-home .hero{
+    min-height:760px;
+  }
+
+  .page-home .hero-content{
+    min-height:760px;
+    padding-top:calc(var(--header-height) + 68px);
+    padding-bottom:104px;
+  }
+
+  .page-home .hero-visual{
+    top:20%;
+    right:-28vw;
+    width:min(126vw,540px);
+    opacity:.48;
+  }
+
+  .page-home .hero.is-cinematic-complete .hero-visual{
+    opacity:.24;
+  }
+
+  .page-home .hero-subtitle{
+    font-size:13px;
+    line-height:1.82;
+  }
+
+  .page-home .hero-actions{
+    gap:10px;
+  }
+
+  .page-home .hero-actions .button{
+    min-height:50px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .page-home .hero.is-cinematic-prep .hero-copy > *{
+    opacity:1;
+    transform:none;
+  }
+
+  .page-home .hero-ring{
+    animation:none!important;
+  }
+
+  .page-home .hero-particles .hero-particle,
+  .page-home .scroll-line::after{
+    animation:none!important;
+  }
+
+  .page-home .hero-tree-shell{
+    transition:none;
+  }
+}

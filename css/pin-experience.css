@@ -1,0 +1,365 @@
+/* ================================================================
+   Khushie V2 — Phase 04
+   PIN gate + cinematic birthday-number reveal
+   Surprise-page scoped. Extends the V2 foundation.
+   ================================================================ */
+
+.page-surprise {
+  --pin-ivory: #f4ede1;
+  --pin-muted: #aaa39a;
+  --pin-line: rgba(238, 220, 190, .15);
+  --pin-line-strong: rgba(232, 201, 157, .48);
+  --pin-gold: #e8c99d;
+  --pin-rose: #c98d89;
+  --pin-panel: rgba(18, 18, 23, .62);
+}
+
+.surprise-stage {
+  padding: max(22px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right))
+    max(22px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+  background:
+    radial-gradient(55vw 45vw at 50% 35%, rgba(232, 201, 157, .06), transparent 70%),
+    radial-gradient(50vw 50vw at 15% 90%, rgba(169, 102, 120, .035), transparent 72%),
+    #06070a;
+}
+
+.surprise-stage.is-active {
+  overflow: hidden;
+}
+
+.surprise-gate,
+.surprise-number-stage,
+.surprise-content {
+  width: min(960px, calc(100% - 20px));
+}
+
+.surprise-gate,
+.surprise-number-stage {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  display: grid;
+  place-items: center;
+  padding: 34px 16px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .45s ease, visibility 0s linear .45s;
+}
+
+.surprise-gate.is-active,
+.surprise-number-stage.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity .45s ease, visibility 0s;
+}
+
+.birthday-pin {
+  width: min(390px, 100%);
+  padding: clamp(26px, 5vw, 42px);
+  border: 1px solid var(--pin-line);
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .015)),
+    var(--pin-panel);
+  box-shadow: 0 34px 90px rgba(0, 0, 0, .36), inset 0 1px 0 rgba(255, 255, 255, .04);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  text-align: center;
+}
+
+.birthday-pin__eyebrow {
+  margin: 0 0 10px;
+  color: var(--pin-gold);
+  font-size: 9px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+}
+
+.birthday-pin__title {
+  margin: 0;
+  color: var(--pin-ivory);
+  font: 400 clamp(42px, 7vw, 72px) / .9 var(--font-display);
+  letter-spacing: -.035em;
+}
+
+.birthday-pin__hint {
+  max-width: 32em;
+  margin: 18px auto 0;
+  color: var(--pin-muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.birthday-pin__dots {
+  display: flex;
+  justify-content: center;
+  gap: clamp(11px, 3vw, 16px);
+  margin: 30px 0 26px;
+}
+
+.birthday-pin__dot {
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(238, 220, 190, .35);
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 0 rgba(232, 201, 157, 0);
+  transition: background .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+.birthday-pin__dot.is-filled {
+  border-color: var(--pin-gold);
+  background: var(--pin-gold);
+  transform: scale(.9);
+  box-shadow: 0 0 18px rgba(232, 201, 157, .2);
+}
+
+.birthday-pin__dot.is-success {
+  background: var(--pin-rose);
+  border-color: var(--pin-rose);
+  box-shadow: 0 0 24px rgba(201, 141, 137, .28);
+}
+
+.birthday-pin__status {
+  min-height: 24px;
+  margin: 0 0 18px;
+  color: var(--pin-muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.birthday-pin__status[data-state="error"] {
+  color: #dfa6a6;
+}
+
+.birthday-pin__status[data-state="success"] {
+  color: #dfc49b;
+}
+
+.birthday-pin__keypad {
+  width: min(300px, 100%);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.birthday-pin__key {
+  min-height: 58px;
+  border: 1px solid rgba(238, 220, 190, .12);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .028);
+  color: var(--pin-ivory);
+  cursor: pointer;
+  font: 500 16px/1 var(--font-sans);
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
+  touch-action: manipulation;
+}
+
+.birthday-pin__key:hover {
+  border-color: rgba(232, 201, 157, .34);
+  background: rgba(255, 255, 255, .05);
+}
+
+.birthday-pin__key:active {
+  transform: translateY(1px) scale(.985);
+}
+
+.birthday-pin__key:focus-visible {
+  outline: 2px solid var(--pin-gold);
+  outline-offset: 3px;
+}
+
+.birthday-pin__key--secondary {
+  color: var(--pin-muted);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.birthday-pin__key--zero {
+  grid-column: 2;
+}
+
+.birthday-pin__fallback {
+  display: none;
+  margin-top: 20px;
+}
+
+.birthday-pin__fallback.is-visible {
+  display: inline-flex;
+}
+
+.birthday-pin.is-error {
+  animation: birthdayPinShake .28s ease;
+}
+
+@keyframes birthdayPinShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* ----------------------------------------------------------------
+   Birthday number stage
+   ---------------------------------------------------------------- */
+
+.surprise-number-stage {
+  text-align: center;
+}
+
+.birthday-number-stage__atmosphere {
+  position: absolute;
+  inset: 12% 18%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 201, 157, .09), transparent 68%);
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+.birthday-number-stage__copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.birthday-number-stage__eyebrow {
+  margin: 0 0 20px;
+  color: var(--pin-gold);
+  font-size: 9px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  opacity: 0;
+}
+
+.birthday-number-stage__number {
+  margin: 0;
+  color: var(--pin-ivory);
+  font: 400 clamp(150px, 28vw, 380px) / .7 var(--font-display);
+  letter-spacing: -.065em;
+  opacity: 0;
+  transform: scale(.9);
+  text-shadow: 0 0 60px rgba(232, 201, 157, .12);
+}
+
+.birthday-number-stage__number::after {
+  content: "";
+  display: block;
+  width: min(170px, 28vw);
+  height: 1px;
+  margin: 28px auto 0;
+  background: linear-gradient(90deg, transparent, rgba(232, 201, 157, .56), transparent);
+  opacity: .8;
+}
+
+.birthday-number-stage__date {
+  margin: 28px 0 0;
+  color: var(--pin-muted);
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  opacity: 0;
+}
+
+.birthday-number-stage__sweep {
+  position: absolute;
+  width: min(60vw, 760px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(253, 240, 214, .75), transparent);
+  box-shadow: 0 0 30px rgba(232, 201, 157, .28);
+  transform: translateX(-65vw) rotate(-8deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.birthday-number-stage__continue {
+  position: absolute;
+  visibility: hidden;
+  z-index: 4;
+  bottom: max(26px, env(safe-area-inset-bottom));
+  opacity: 0;
+  pointer-events: none;
+}
+
+.birthday-number-stage__continue.is-visible {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.birthday-number-stage.is-reduced .birthday-number-stage__eyebrow,
+.birthday-number-stage.is-reduced .birthday-number-stage__number,
+.birthday-number-stage.is-reduced .birthday-number-stage__date,
+.birthday-number-stage.is-reduced .birthday-number-stage__continue {
+  opacity: 1;
+  transform: none;
+}
+
+.surprise-stage.is-number-reveal .surprise-particles {
+  opacity: .35;
+}
+
+@media (max-width: 767px) {
+  .birthday-pin {
+    width: min(380px, calc(100vw - 28px));
+    border-radius: 20px;
+    padding: 24px 18px 20px;
+  }
+
+  .birthday-pin__title {
+    font-size: clamp(40px, 12vw, 58px);
+  }
+
+  .birthday-pin__hint {
+    font-size: 11px;
+  }
+
+  .birthday-pin__key {
+    min-height: 60px;
+  }
+
+  .birthday-number-stage__number {
+    font-size: clamp(132px, 42vw, 280px);
+  }
+
+  .birthday-number-stage__date {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 430px) {
+  .birthday-pin__dots {
+    margin-top: 24px;
+  }
+
+  .birthday-pin__keypad {
+    gap: 8px;
+  }
+
+  .birthday-pin__key {
+    min-height: 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .birthday-pin,
+  .birthday-pin__dot,
+  .birthday-pin__key,
+  .birthday-pin__status,
+  .birthday-number-stage__number,
+  .birthday-number-stage__eyebrow,
+  .birthday-number-stage__date,
+  .birthday-number-stage__sweep,
+  .birthday-number-stage__continue {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .birthday-number-stage__atmosphere {
+    filter: none;
+  }
+}

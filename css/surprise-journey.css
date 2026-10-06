@@ -1,0 +1,320 @@
+/* ============================================================
+   KHUSHIE V2 — PHASE 08
+   Surprise Journey presentation layer
+   Reuses Phase 02/03/04/05/06/07 tokens and controls.
+   ============================================================ */
+
+.surprise-content {
+  width: min(1120px, calc(100% - 36px));
+  max-height: min(92svh, 980px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 28px 0 36px;
+}
+
+.surprise-hub {
+  width: 100%;
+  display: grid;
+  gap: 28px;
+}
+
+.surprise-hub__head {
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.surprise-hub__eyebrow {
+  margin: 0 0 12px;
+  color: var(--color-accent);
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.surprise-hub__title {
+  margin: 0;
+  color: var(--color-text);
+  font: 400 clamp(58px, 8vw, 104px)/.82 var(--font-display);
+  letter-spacing: -.05em;
+}
+
+.surprise-hub__title em {
+  color: var(--color-accent);
+  font-style: italic;
+}
+
+.surprise-hub__intro {
+  max-width: 660px;
+  margin: 20px auto 0;
+  color: var(--color-text-soft);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.surprise-hub__progress {
+  display: grid;
+  grid-template-columns: auto auto minmax(140px, 280px) minmax(0, 1fr);
+  align-items: center;
+  gap: 10px 12px;
+  max-width: 700px;
+  margin: 22px auto 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(215,169,109,.18);
+  border-radius: 999px;
+  background: rgba(255,255,255,.025);
+  text-align: left;
+}
+
+.surprise-hub__progress-label {
+  color: var(--color-muted);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.surprise-hub__progress strong {
+  color: var(--color-text);
+  font: 600 14px var(--font-body);
+  white-space: nowrap;
+}
+
+.surprise-hub__progress-track {
+  display: block;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+}
+
+.surprise-hub__progress-track span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-accent), rgba(215,169,109,.45));
+  transition: width .45s ease;
+}
+
+.surprise-hub__progress-status {
+  color: var(--color-muted);
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.surprise-hub__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.surprise-moment {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 330px;
+  padding: 22px;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 22px;
+  background: linear-gradient(160deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+  box-shadow: 0 22px 70px rgba(0,0,0,.22);
+  transition: transform .3s ease, border-color .3s ease, background .3s ease;
+}
+
+.surprise-moment:hover {
+  transform: translateY(-4px);
+  border-color: rgba(215,169,109,.34);
+  background: linear-gradient(160deg, rgba(215,169,109,.08), rgba(255,255,255,.02));
+}
+
+.surprise-moment:focus-within {
+  border-color: rgba(215,169,109,.5);
+}
+
+.surprise-moment.is-complete {
+  border-color: rgba(215,169,109,.38);
+  background: linear-gradient(160deg, rgba(215,169,109,.095), rgba(255,255,255,.018));
+}
+
+.surprise-moment__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.surprise-moment__number {
+  color: var(--color-accent);
+  font: 600 11px var(--font-body);
+  letter-spacing: .14em;
+}
+
+.surprise-moment__mark {
+  color: rgba(255,255,255,.4);
+  font-size: 20px;
+}
+
+.surprise-moment__eyebrow {
+  margin: 28px 0 10px;
+  color: var(--color-muted);
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.surprise-moment h3 {
+  margin: 0;
+  color: var(--color-text);
+  font: 400 clamp(33px, 3vw, 48px)/.9 var(--font-display);
+  letter-spacing: -.04em;
+}
+
+.surprise-moment h3 em {
+  color: var(--color-accent);
+  font-style: italic;
+}
+
+.surprise-moment > p:not(.surprise-moment__eyebrow) {
+  margin: 18px 0 22px;
+  color: var(--color-text-soft);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.surprise-moment__action {
+  width: 100%;
+  margin-top: auto;
+}
+
+.surprise-moment__state {
+  display: block;
+  margin-top: 11px;
+  color: var(--color-muted);
+  font-size: 10px;
+  text-align: center;
+}
+
+.surprise-moment.is-complete .surprise-moment__state {
+  color: var(--color-accent);
+}
+
+.surprise-moment.is-complete .surprise-moment__state::before {
+  content: "✓ ";
+}
+
+.surprise-moment--celebration {
+  border-style: dashed;
+}
+
+.surprise-hub__completion {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 18px 20px;
+  border: 1px solid rgba(215,169,109,.24);
+  border-radius: 18px;
+  background: rgba(215,169,109,.06);
+}
+
+.surprise-hub__completion-mark {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(215,169,109,.1);
+  color: var(--color-accent);
+}
+
+.surprise-hub__completion h3 {
+  margin: 3px 0 5px;
+  color: var(--color-text);
+  font: 500 28px/1.05 var(--font-display);
+}
+
+.surprise-hub__completion p {
+  margin: 0;
+  color: var(--color-text-soft);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.surprise-hub__footer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.surprise-personal {
+  width: min(900px, 100%);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.surprise-personal[hidden] {
+  display: none;
+}
+
+.surprise-hub[hidden] {
+  display: none;
+}
+
+.surprise-personal__bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.surprise-personal__label {
+  color: var(--color-muted);
+  font-size: 9px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.surprise-personal .surprise-photo-frame {
+  margin-inline: auto;
+}
+
+.surprise-personal .surprise-actions {
+  opacity: 1;
+  transform: none;
+}
+
+.surprise-personal.is-opening .surprise-kicker,
+.surprise-personal.is-opening #surpriseTitle,
+.surprise-personal.is-opening .surprise-photo-frame,
+.surprise-personal.is-opening .surprise-message,
+.surprise-personal.is-opening .surprise-actions {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 1080px) {
+  .surprise-hub__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 767px) {
+  .surprise-content { width: min(100% - 24px, 700px); max-height: calc(100svh - 32px); padding-top: 16px; }
+  .surprise-hub { gap: 20px; }
+  .surprise-hub__title { font-size: clamp(48px, 15vw, 76px); }
+  .surprise-hub__intro { font-size: 12px; }
+  .surprise-hub__progress { grid-template-columns: auto auto 1fr; border-radius: 16px; }
+  .surprise-hub__progress-status { grid-column: 1 / -1; }
+  .surprise-hub__grid { grid-template-columns: 1fr; gap: 12px; }
+  .surprise-moment { min-height: 0; padding: 18px; }
+  .surprise-moment:hover { transform: none; }
+  .surprise-hub__footer { flex-direction: column; }
+  .surprise-hub__footer .button { width: 100%; }
+  .surprise-personal__bar { align-items: flex-start; flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .surprise-moment,
+  .surprise-hub__progress-track span { transition: none !important; }
+  .surprise-moment:hover { transform: none; }
+}
