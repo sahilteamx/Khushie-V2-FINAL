@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="A special birthday surprise for Khushi."><meta name="theme-color" content="#08090d">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<title>Your Surprise · Khushi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/animations.css">
+<script src="js/config.js" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script><script src="js/animations.js" defer></script><script src="js/main.js" defer></script><script src="js/pin-experience.js" defer></script><script src="js/surprise.js" defer></script>
+<script src="js/progress.js" defer></script><script src="js/surprise-journey.js" defer></script><script src="js/easter-eggs.js" defer></script><link rel="stylesheet" href="css/part7-polish.css">
+<link rel="preload" as="audio" href="music/birthday.mp3" type="audio/mpeg">
+<link rel="stylesheet" href="css/v2-foundation.css"><link rel="stylesheet" href="css/pin-experience.css"><link rel="stylesheet" href="css/surprise-journey.css"></head>
+<body class="page-surprise"><a class="skip-link" href="#main-content">Skip to content</a>
+<div class="page-transition" id="pageTransition" aria-hidden="true"><span class="transition-mark">K</span></div><div class="page-noise" aria-hidden="true"></div>
+<header class="site-header"><a href="index.html" class="brand"><span class="brand-mark">K</span><span class="brand-text">My Birthday Princess 👑</span></a><button class="nav-toggle" id="navToggle" type="button" aria-label="Open navigation" aria-expanded="false"><span></span><span></span></button><nav class="site-nav" id="siteNav" aria-label="Main navigation"><a href="index.html" class="nav-link">Home</a><a href="fun-zone.html" class="nav-link">Fun Zone</a><a href="memories.html" class="nav-link">Memories</a><a href="story.html" class="nav-link">Story</a><a href="mystery-gifts.html" class="nav-link">Gifts</a><a href="sticker-studio.html" class="nav-link">Studio</a><a href="memory-booth.html" class="nav-link">Memory Booth</a><a href="wish-generator.html" class="nav-link">Wish</a><a href="cake-celebration.html" class="nav-link">Cake</a><a href="surprise.html" class="nav-link">Surprise</a><a href="message.html" class="nav-link">Message</a></nav></header>
+<main id="main-content">
+<section class="fullscreen-intro" id="surpriseIntro"><div class="container fullscreen-content"><p class="eyebrow reveal">Chapter three · Something special</p><h1 class="page-title reveal">Your surprise<br><em>starts here.</em></h1><p class="page-intro reveal">Press the button when you're ready. The sequence unfolds only from your interaction.</p><button class="button button--primary reveal" type="button" id="surpriseButton"><span>Open Your Surprise</span><span class="button-arrow">↗</span></button><p class="interaction-note" id="surpriseNote" aria-live="polite">No autoplay or hidden playback is used.</p></div></section>
+<section class="surprise-stage" id="surpriseStage" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="surpriseTitle">
+  <div class="surprise-orb orb-one" aria-hidden="true"></div>
+  <div class="surprise-orb orb-two" aria-hidden="true"></div>
+  <div class="surprise-particles" id="surpriseParticles" aria-hidden="true"></div>
+
+  <section class="surprise-gate is-active" id="birthdayPinGate" aria-hidden="true" aria-labelledby="birthdayPinTitle">
+    <div class="birthday-pin" id="birthdayPin" aria-label="Birthday PIN, 0 of 4 digits entered">
+      <p class="birthday-pin__eyebrow">A private little chapter</p>
+      <h2 class="birthday-pin__title" id="birthdayPinTitle">A tiny secret first.</h2>
+      <p class="birthday-pin__hint">Enter the four-digit birthday PIN to unlock the next moment.</p>
+      <div class="birthday-pin__dots" aria-hidden="true">
+        <span class="birthday-pin__dot"></span><span class="birthday-pin__dot"></span>
+        <span class="birthday-pin__dot"></span><span class="birthday-pin__dot"></span>
+      </div>
+      <p class="birthday-pin__status" id="birthdayPinStatus" role="status" aria-live="polite">Enter the four-digit birthday PIN.</p>
+      <div class="birthday-pin__keypad" id="birthdayPinKeypad" aria-label="Birthday PIN keypad">
+        <button class="birthday-pin__key" type="button" data-pin-action="1" aria-label="1">1</button>
+        <button class="birthday-pin__key" type="button" data-pin-action="2" aria-label="2">2</button>
+        <button class="birthday-pin__key" type="button" data-pin-action="3" aria-label="3">3</button>
+        <button class="birthday-pin__key" type="button" data-pin-action="4" aria-label="4">4</button>
+        <button class="birthday-pin__key" type="button" data-pin-action="5" aria-label="5">5</button>
+        <button class="birthday-pin__key" type="button" data-pin-action="6" aria-label="6">6</button>
+        <button class="birthday-pin__key" type="button" data-pin-action="7" aria-label="7">7</button>
+        <button class="birthday-pin__key" type="button" data-pin-action="8" aria-label="8">8</button>
+        <button class="birthday-pin__key" type="button" data-pin-action="9" aria-label="9">9</button>
+        <button class="birthday-pin__key birthday-pin__key--secondary" type="button" data-pin-action="clear" aria-label="Clear PIN">Clear</button>
+        <button class="birthday-pin__key birthday-pin__key--zero" type="button" data-pin-action="0" aria-label="0">0</button>
+        <button class="birthday-pin__key birthday-pin__key--secondary" type="button" data-pin-action="backspace" aria-label="Delete last digit">⌫</button>
+      </div>
+      <button class="button button--text birthday-pin__fallback" id="birthdayPinFallback" type="button">Continue to surprise ↗</button>
+    </div>
+  </section>
+
+  <section class="surprise-number-stage" id="birthdayNumberStage" aria-hidden="true" aria-labelledby="birthdayNumberTitle">
+    <div class="birthday-number-stage__atmosphere" aria-hidden="true"></div>
+    <div class="birthday-number-stage__copy">
+      <p class="birthday-number-stage__eyebrow">The day begins here</p>
+      <h2 class="birthday-number-stage__number" id="birthdayNumberTitle" aria-label="Birthday date number">08</h2>
+      <p class="birthday-number-stage__date" id="birthdayNumberDate">08 October 2026</p>
+    </div>
+    <span class="birthday-number-stage__sweep" aria-hidden="true"></span>
+    <button class="button button--text birthday-number-stage__continue" id="birthdayNumberContinue" type="button">Continue ↗</button>
+  </section>
+
+  <div class="surprise-content" id="surpriseRevealContent" aria-hidden="true">
+    <section class="surprise-hub" id="surpriseHub" aria-labelledby="surpriseHubTitle">
+      <div class="surprise-hub__head">
+        <p class="surprise-hub__eyebrow">A little journey inside the surprise</p>
+        <h2 class="surprise-hub__title" id="surpriseHubTitle">Discover.<br><em>Open. Play.</em></h2>
+        <p class="surprise-hub__intro">A few small moments are waiting. Nothing is locked behind a difficult puzzle — just choose what you feel like opening next.</p>
+        <div class="surprise-hub__progress" aria-live="polite">
+          <span class="surprise-hub__progress-label">Discoveries</span>
+          <strong id="surpriseJourneyProgress">0 / 3</strong>
+          <span class="surprise-hub__progress-track" aria-hidden="true"><span id="surpriseJourneyProgressBar"></span></span>
+          <span id="surpriseJourneyStatus" class="surprise-hub__progress-status">Nothing opened yet.</span>
+        </div>
+      </div>
+
+      <div class="surprise-hub__grid" id="surpriseMomentGrid">
+        <article class="surprise-moment" data-surprise-card="mystery">
+          <div class="surprise-moment__top"><span class="surprise-moment__number">01</span><span class="surprise-moment__mark" aria-hidden="true">✦</span></div>
+          <p class="surprise-moment__eyebrow">Discovery</p>
+          <h3>Five gifts.<br><em>One surprise.</em></h3>
+          <p>Open the existing Mystery Gifts experience and see which little surprise finds you first.</p>
+          <a class="button button--primary surprise-moment__action" href="mystery-gifts.html" data-journey-action="mystery">Open Mystery Gifts <span aria-hidden="true">↗</span></a>
+          <span class="surprise-moment__state" data-journey-state="mystery">Available</span>
+        </article>
+
+        <article class="surprise-moment" data-surprise-card="personal">
+          <div class="surprise-moment__top"><span class="surprise-moment__number">02</span><span class="surprise-moment__mark" aria-hidden="true">♡</span></div>
+          <p class="surprise-moment__eyebrow">Personal moment</p>
+          <h3>A moment<br><em>for you.</em></h3>
+          <p>The existing Surprise message, photo and words are still here — waiting to be opened as one quiet little reveal.</p>
+          <button class="button button--primary surprise-moment__action" type="button" id="openPersonalMoment" data-journey-action="personal">Reveal the moment <span aria-hidden="true">↗</span></button>
+          <span class="surprise-moment__state" data-journey-state="personal">Available</span>
+        </article>
+
+        <article class="surprise-moment" data-surprise-card="playful">
+          <div class="surprise-moment__top"><span class="surprise-moment__number">03</span><span class="surprise-moment__mark" aria-hidden="true">＋</span></div>
+          <p class="surprise-moment__eyebrow">Play</p>
+          <h3>Something<br><em>fun next.</em></h3>
+          <p>Step into the existing Fun Zone whenever you feel like playing. The games are already waiting there.</p>
+          <a class="button button--primary surprise-moment__action" href="fun-zone.html#games" data-journey-action="playful">Enter Fun Zone <span aria-hidden="true">↗</span></a>
+          <span class="surprise-moment__state" data-journey-state="playful">Available</span>
+        </article>
+
+        <article class="surprise-moment surprise-moment--celebration" data-surprise-card="celebration">
+          <div class="surprise-moment__top"><span class="surprise-moment__number">04</span><span class="surprise-moment__mark" aria-hidden="true">✧</span></div>
+          <p class="surprise-moment__eyebrow">Existing celebration</p>
+          <h3>The cake is<br><em>still waiting.</em></h3>
+          <p>Your existing Cake Celebration remains the next bigger birthday moment. Continue there whenever you are ready.</p>
+          <a class="button button--text surprise-moment__action" href="cake-celebration.html" data-journey-action="celebration">Continue to Cake <span aria-hidden="true">↗</span></a>
+          <span class="surprise-moment__state" data-journey-state="celebration">Available</span>
+        </article>
+      </div>
+
+      <div class="surprise-hub__completion" id="surpriseJourneyCompletion" hidden aria-live="polite">
+        <span class="surprise-hub__completion-mark" aria-hidden="true">✦</span>
+        <div>
+          <p class="eyebrow">Three discoveries complete</p>
+          <h3>The Surprise Journey is open.</h3>
+          <p>You can revisit any moment, or continue to the existing Cake Celebration.</p>
+        </div>
+      </div>
+
+      <div class="surprise-hub__footer">
+        <button class="button button--text" type="button" id="replaySurprise">Replay the birthday opening</button>
+        <a class="button button--text" href="message.html">Read the full message ↗</a>
+      </div>
+    </section>
+
+    <section class="surprise-personal" id="surprisePersonalMoment" hidden aria-labelledby="surpriseTitle">
+      <div class="surprise-personal__bar">
+        <button class="button button--text" type="button" id="closePersonalMoment">← Back to Surprise</button>
+        <span class="surprise-personal__label">Personal moment</span>
+      </div>
+      <p class="surprise-kicker" id="surpriseKicker">A moment for you</p>
+      <h2 id="surpriseTitle">Happy Birthday,<br><em>Khushi.</em></h2>
+      <div class="surprise-photo-frame"><img id="surprisePhoto" data-src="images/memories/memory-01.jpg" alt="Birthday memory" loading="eager" decoding="async"><div class="surprise-photo-placeholder" aria-hidden="true"></div></div>
+      <p class="surprise-message" id="surpriseMessage">Khushi, itna sab dekhne ke baad bhi shayad mere paas kehne ke liye bahot kuch baaki hai… 🥹 Lekin har baat words mein keh paana possible nahi hota. Bas aaj ke din — thank you. ❤️ Aur ye story abhi khatam nahi hui hai. The best chapters are still waiting… ✨❤️</p>
+      <div class="surprise-actions"><a href="message.html" class="button button--primary">Read the full message ↗</a></div>
+    </section>
+  </div>
+  <button class="surprise-exit" id="surpriseExit" type="button" aria-label="Close surprise">×</button>
+</section>
+</main>
+<footer class="site-footer"><div class="container footer-inner"><div class="footer-brand"><span class="brand-mark">K</span><span>Made especially<br><em>for Khushi.</em></span></div><p class="footer-copy">© <span id="currentYear"></span> · For Khushi</p></div></footer>
+<div class="music-player" id="musicPlayer" aria-label="Birthday music player">
+  <audio id="birthdayAudio" preload="none" data-src="music/birthday.mp3" loop></audio>
+  <button class="music-main" id="musicToggle" type="button" aria-label="Play birthday music" aria-pressed="false">
+    <span class="music-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  </button>
+  <div class="music-meta"><span class="music-title">Birthday soundtrack</span><span class="music-status" id="musicStatus">Tap to play</span></div>
+  <div class="music-controls">
+    <button type="button" id="musicMute" aria-label="Mute music">M</button>
+    <input id="musicVolume" type="range" min="0" max="1" step="0.01" value="1" aria-label="Volume">
+    <span id="musicTime">00:00 / 00:00</span>
+  </div>
+  <input class="music-progress" id="musicProgress" type="range" min="0" max="100" step="0.1" value="0" aria-label="Music progress">
+  <button class="music-close" id="musicClose" type="button" aria-label="Minimize music player">×</button>
+</div>
+</body></html>
