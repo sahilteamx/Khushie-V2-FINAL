@@ -157,14 +157,22 @@
     }
     if (root.dataset.birthday !== target.toISOString()) root.dataset.birthday = target.toISOString();
     const pad = (value) => String(Math.max(0, value)).padStart(2, "0");
+    const DAY = 86400000;
+    // After the birthday day is over, count down to the same date next year.
+    const nextTarget = () => {
+      const next = new Date(target.getTime());
+      while (next.getTime() + DAY <= Date.now()) next.setFullYear(next.getFullYear() + 1);
+      return next;
+    };
+    let upcoming = nextTarget();
     let timer = null;
     const update = () => {
-      const diff = target.getTime() - Date.now();
+      const diff = upcoming.getTime() - Date.now();
       if (diff <= 0) {
+        // The birthday day itself: show zeros and the greeting, then roll over after 24h.
         Object.values(units).forEach((element) => { if (element) element.textContent = "00"; });
         if (note) note.textContent = "Today is the day. Happy Birthday, Khushi!";
-        if (timer !== null) window.clearInterval(timer);
-        timer = null;
+        if (Date.now() >= upcoming.getTime() + DAY) upcoming = nextTarget();
         return;
       }
       const seconds = Math.floor(diff / 1000);
@@ -172,10 +180,10 @@
       if (units.hours) units.hours.textContent = pad(Math.floor((seconds % 86400) / 3600));
       if (units.minutes) units.minutes.textContent = pad(Math.floor((seconds % 3600) / 60));
       if (units.seconds) units.seconds.textContent = pad(seconds % 60);
-      if (note) note.textContent = "A little countdown to a very special day.";
+      if (note) note.textContent = "Until your next birthday. See you then, Khushi.";
     };
     update();
-    if (target.getTime() > Date.now()) timer = window.setInterval(update, 1000);
+    timer = window.setInterval(update, 1000);
   }
 
   function music() {
