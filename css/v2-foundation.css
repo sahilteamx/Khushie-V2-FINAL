@@ -50,9 +50,9 @@
   --color-surface-paper:var(--v2-paper);
 
   /* ── Type ────────────────────────────────────────────────────── */
-  --font-display:"Cormorant Garamond",Georgia,serif;
-  --font-body:"Inter",Arial,sans-serif;
-  --font-script:"Cormorant Garamond",Georgia,serif;
+  --font-display:"Young Serif",Georgia,serif;
+  --font-body:"Hanken Grotesk",Arial,sans-serif;
+  --font-script:"Young Serif",Georgia,serif;
   --text-xs:10px;
   --text-sm:12px;
   --text-md:14px;
@@ -589,4 +589,22 @@ canvas{
   .page-title{font-size:clamp(54px,18.5vw,84px)}
   .hero-title{font-size:clamp(53px,18.5vw,82px)}
   .page-intro{line-height:1.85}
+}
+
+/* ── Direction A: night filmstrip ───────────────────────────────── */
+/* Young Serif has no italic, so emphasis stays upright and carries colour instead of a faux slant. */
+em,
+.hero-title span,
+.section-heading h2 em,
+.closing-content h2 em,
+.page-title em{
+  font-style:normal;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
 }
