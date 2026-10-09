@@ -193,7 +193,7 @@
   let balloonsTimer = null; let balloonsSpawner = null; let balloonsScore = 0; let balloonsSeconds = 20; let balloonsCombo = 0; let balloonsLastPop = 0;
   function resetBalloons() {
     stopBalloons(); balloonsScore = 0; balloonsSeconds = 20; balloonsCombo = 0; balloonsLastPop = 0;
-    $("#balloonsScore").textContent = "0"; $("#balloonsCombo").textContent = "0"; $("#balloonsBest").textContent = String(state.best?.balloons || 0);
+    $("#balloonsScore").textContent = "0"; { const comboEl = $("#balloonsCombo"); if (comboEl) comboEl.textContent = "0"; } $("#balloonsBest").textContent = String(state.best?.balloons || 0);
     $("#balloonsStatus").textContent = "Pop balloons quickly to build your combo."; $("#balloonsStart").hidden = false; $("#balloonsReplay").hidden = true; $("#balloonsArena").replaceChildren();
   }
   function stopBalloons() { if (balloonsTimer) window.clearInterval(balloonsTimer); if (balloonsSpawner) window.clearInterval(balloonsSpawner); balloonsTimer = null; balloonsSpawner = null; $("#balloonsArena")?.replaceChildren(); }
@@ -202,12 +202,12 @@
     const balloon = document.createElement("button"); balloon.type = "button"; balloon.className = "balloon-item"; balloon.setAttribute("aria-label", "Pop balloon");
     balloon.style.left = `${8 + Math.random() * 84}%`; balloon.style.top = `${62 + Math.random() * 24}%`; balloon.style.setProperty("--rise-time", `${Math.max(2.15, 3.8 - (20 - balloonsSeconds) * .04)}s`);
     balloon.addEventListener("pointerdown", (event) => {
-      event.preventDefault(); const now = performance.now(); balloonsCombo = now - balloonsLastPop < 1000 ? Math.min(balloonsCombo + 1, 9) : 1; balloonsLastPop = now; const add = 10 + balloonsCombo * 2; balloonsScore += add; $("#balloonsScore").textContent = String(balloonsScore); $("#balloonsCombo").textContent = String(balloonsCombo); balloon.remove();
+      event.preventDefault(); const now = performance.now(); balloonsCombo = now - balloonsLastPop < 1000 ? Math.min(balloonsCombo + 1, 9) : 1; balloonsLastPop = now; const add = 10 + balloonsCombo * 2; balloonsScore += add; $("#balloonsScore").textContent = String(balloonsScore); { const comboEl = $("#balloonsCombo"); if (comboEl) comboEl.textContent = String(balloonsCombo); } balloon.remove();
     }, { once: true, passive: false });
     arena.appendChild(balloon); window.setTimeout(() => balloon.remove(), 4000);
   }
   function startBalloons() {
-    stopBalloons(); balloonsScore = 0; balloonsSeconds = 20; balloonsCombo = 0; balloonsLastPop = 0; $("#balloonsScore").textContent = "0"; $("#balloonsCombo").textContent = "0"; $("#balloonsTimer").textContent = "20";
+    stopBalloons(); balloonsScore = 0; balloonsSeconds = 20; balloonsCombo = 0; balloonsLastPop = 0; $("#balloonsScore").textContent = "0"; { const comboEl = $("#balloonsCombo"); if (comboEl) comboEl.textContent = "0"; } $("#balloonsTimer").textContent = "20";
     $("#balloonsStatus").textContent = "Keep the streak alive!"; $("#balloonsStart").hidden = true; $("#balloonsReplay").hidden = true;
     spawnBalloon(); balloonsSpawner = window.setInterval(spawnBalloon, reducedMotion ? 1000 : 720);
     $("#balloonsTimer").textContent = "20"; balloonsTimer = window.setInterval(() => { balloonsSeconds -= 1; $("#balloonsTimer").textContent = String(Math.max(0, balloonsSeconds)); if (balloonsSeconds <= 0) finishBalloons(); }, 1000);
