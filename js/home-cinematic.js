@@ -23,7 +23,7 @@
   const qsa = (selector) => Array.from(tree.querySelectorAll(selector));
 
   const paths = qsa(".tree-roots path, .tree-trunk path, .tree-branches path");
-  const leaves = qsa(".tree-leaves");
+  const leaves = qsa(".tree-leaves .leaf");
   const flowers = qsa(".tree-flower");
   const petals = qsa(".tree-petals path");
   const sweep = tree.querySelector(".tree-light-sweep");
@@ -38,6 +38,19 @@
   const scrollIndicator = hero.querySelector(".scroll-indicator");
   const monogram = hero.querySelector(".hero-monogram");
 
+  // Petals are drawn around (0,0), so each one needs a starting spot in the canopy.
+  const PETAL_START = [[150, 235], [235, 205], [320, 190], [410, 205], [490, 235], [190, 300], [430, 300], [310, 250]];
+  const PETAL_DRIFT_X = [42, -52, 66, -30, 50, -62, 34, -44];
+  const PETAL_FALL_Y = [120, 150, 105, 140, 125, 160, 110, 135];
+  const PETAL_SPIN = [26, -22, 38, -34, 28, -26, 32, -30];
+
+  // Leaves and flowers carry their position in an SVG transform attribute.
+  // Setting style.transform on them would replace it and pull everything to the corner,
+  // so only GSAP (which keeps the attribute) is allowed to scale them.
+  function setSvgScale(elements, value) {
+    if (gsap) gsap.set(elements, { scale: value, transformOrigin: "50% 50%" });
+  }
+
   function finalVisualState() {
     paths.forEach((path) => {
       const length = path.getTotalLength ? path.getTotalLength() : 1;
@@ -46,17 +59,10 @@
       path.style.opacity = "1";
     });
 
-    leaves.forEach((leaf, index) => {
-      leaf.style.opacity = "1";
-      leaf.style.transformOrigin = "center";
-      leaf.style.transform = `translateY(0) rotate(${index % 2 ? 1.5 : -1.5}deg) scale(1)`;
-    });
-
-    flowers.forEach((flower) => {
-      flower.style.opacity = "1";
-      flower.style.transformOrigin = "center";
-      flower.style.transform = "scale(1)";
-    });
+    leaves.forEach((leaf) => { leaf.style.opacity = "1"; });
+    flowers.forEach((flower) => { flower.style.opacity = "1"; });
+    setSvgScale(leaves, 1);
+    setSvgScale(flowers, 1);
 
     petals.forEach((petal) => {
       petal.style.opacity = "0";
@@ -91,21 +97,15 @@
       path.style.opacity = "0";
     });
 
-    leaves.forEach((leaf) => {
-      leaf.style.opacity = "0";
-      leaf.style.transformOrigin = "center";
-      leaf.style.transform = "scale(.42)";
-    });
+    leaves.forEach((leaf) => { leaf.style.opacity = "0"; });
+    flowers.forEach((flower) => { flower.style.opacity = "0"; });
+    setSvgScale(leaves, 0.42);
+    setSvgScale(flowers, 0.25);
 
-    flowers.forEach((flower) => {
-      flower.style.opacity = "0";
-      flower.style.transformOrigin = "center";
-      flower.style.transform = "scale(.25)";
-    });
-
-    petals.forEach((petal) => {
+    petals.forEach((petal, index) => {
       petal.style.opacity = "0";
-      petal.style.transform = "translate3d(0,0,0) rotate(0deg) scale(.8)";
+      const [x, y] = PETAL_START[index % PETAL_START.length];
+      if (gsap) gsap.set(petal, { x, y, rotation: 0, scale: 0.8 });
     });
 
     if (ground) ground.style.opacity = ".35";
@@ -175,15 +175,17 @@
     timeline.to(aura, { opacity: 0.72, duration: 0.75, ease: "sine.inOut" }, 3.15);
 
     timeline.set(petals, { opacity: 0.84 }, 3.48);
+    // Petals drift down and sideways from the canopy, then fade out.
     timeline.to(petals, {
-      x: (index) => [42, -52, 66, -30, 50, -62, 34, -44][index] || 24,
-      y: (index) => [-95, -72, -128, -84, -112, -78, -105, -90][index] || -86,
-      rotation: (index) => [26, -22, 38, -34, 28, -26, 32, -30][index] || 20,
+      x: (index) => PETAL_START[index % PETAL_START.length][0] + (PETAL_DRIFT_X[index % 8] || 24),
+      y: (index) => PETAL_START[index % PETAL_START.length][1] + (PETAL_FALL_Y[index % 8] || 120),
+      rotation: (index) => PETAL_SPIN[index % 8] || 20,
       scale: (index) => [0.72, 0.82, 0.64, 0.78, 0.72, 0.84, 0.68, 0.8][index] || 0.75,
       duration: (index) => [2.3, 2.5, 2.15, 2.6, 2.35, 2.55, 2.45, 2.3][index] || 2.4,
       stagger: 0.13,
       ease: "power1.out"
     }, 3.5);
+    timeline.to(petals, { opacity: 0, duration: 0.9, stagger: 0.13, ease: "power1.in" }, 5.2);
 
     if (sweep) {
       timeline.fromTo(
